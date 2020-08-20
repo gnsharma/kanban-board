@@ -15,26 +15,26 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: "babel-loader",
-        options: { presets: ["@babel/env"] }
+        options: { presets: ["@babel/env"] },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
   resolve: {
     extensions: ["*", ".js"],
-    modules: [path.resolve(__dirname, "src"), "node_modules"]
+    modules: [path.resolve(__dirname, "src"), "node_modules"],
   },
   output: {
-    path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
-    filename: "bundle.js"
+    path: path.resolve(__dirname, "public/"),
+    publicPath: "/public/",
+    filename: "bundle.js",
   },
   devServer: {
     contentBase: path.join(__dirname, "public/"),
-    port: 3000
+    port: 3000,
     // publicPath: "http://localhost:3000/dist/",
   },
   plugins: [
@@ -43,9 +43,9 @@ module.exports = {
       "process.env": {
         NODE_ENV: isDebug
           ? JSON.stringify("development")
-          : JSON.stringify("production")
-      }
+          : JSON.stringify("production"),
+      },
     }),
-    ...(isAnalyze ? [new BundleAnalyzerPlugin()] : [])
-  ]
+    ...(isAnalyze ? [new BundleAnalyzerPlugin()] : []),
+  ],
 };
