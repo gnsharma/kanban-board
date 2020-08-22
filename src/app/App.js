@@ -1,17 +1,19 @@
 import React from "react";
 import { observer, useLocalStore } from "mobx-react-lite";
 
-import { Row, Col, Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Row, Col } from "antd";
 import "antd/dist/antd.css";
 
-import TodosList from "todos/Todos";
-import ColumnTitleDisplayer from "components/ColumnTitleDisplayer";
-import todoStore from "store";
+import "utils/utils.css";
+import "app/App.css";
+import BoardColumn from "components/BoardColumn";
+import createTodoStore from "store";
+
+const todoStore = createTodoStore();
 
 function App() {
   const appStore = useLocalStore(() => ({
-    newTodosTitle: "New",
+    newTodosTitle: "To Do",
     wipTodosTitle: "In Progress",
     doneTodosTitle: "Done",
     updateBoardTitle(boardNameKey, newBoardName) {
@@ -20,43 +22,34 @@ function App() {
   }));
 
   return (
-    <div id='app'>
+    <div id='app' className='px-10'>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col span={8}>
-          <ColumnTitleDisplayer
+          <BoardColumn
             getTitle={() => appStore.newTodosTitle}
             boardNameKey='newTodosTitle'
             titleUpdater={appStore.updateBoardTitle}
+            status='new'
+            todoStore={todoStore}
           />
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => todoStore.addTodo("new")}
-          />
-          <TodosList status='new' />
         </Col>
         <Col span={8}>
-          <ColumnTitleDisplayer
+          <BoardColumn
             getTitle={() => appStore.wipTodosTitle}
             boardNameKey='wipTodosTitle'
             titleUpdater={appStore.updateBoardTitle}
+            status='wip'
+            todoStore={todoStore}
           />
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => todoStore.addTodo("wip")}
-          />
-          <TodosList status='wip' />
         </Col>
         <Col span={8}>
-          <ColumnTitleDisplayer
+          <BoardColumn
             getTitle={() => appStore.doneTodosTitle}
             boardNameKey='doneTodosTitle'
             titleUpdater={appStore.updateBoardTitle}
+            status='done'
+            todoStore={todoStore}
           />
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => todoStore.addTodo("done")}
-          />
-          <TodosList status='done' />
         </Col>
       </Row>
     </div>
